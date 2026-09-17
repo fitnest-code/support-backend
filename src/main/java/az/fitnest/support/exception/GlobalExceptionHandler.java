@@ -60,6 +60,19 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(exception.getHttpStatus()).body(ApiResponse.error(apiError));
     }
 
+    @ExceptionHandler(jakarta.validation.ConstraintViolationException.class)
+    public ResponseEntity<ApiResponse<Void>> handleConstraintViolationException(
+            jakarta.validation.ConstraintViolationException exception, WebRequest request) {
+        ApiError apiError = ApiError.builder()
+                .code("VALIDATION_ERROR")
+                .message(getMessage("error.validation"))
+                .status(HttpStatus.BAD_REQUEST.value())
+                .path(request.getDescription(false).replace("uri=", ""))
+                .timestamp(OffsetDateTime.now())
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.error(apiError));
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<Void>> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception, WebRequest request) {
         log.error("MethodArgumentNotValidException: {}", exception.getMessage(), exception);

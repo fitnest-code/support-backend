@@ -17,7 +17,7 @@ public class GatewayHeaderFilter extends OncePerRequestFilter {
     private static final String GATEWAY_HEADER = "X-From-Gateway";
     private static final String GATEWAY_HEADER_VALUE = "1";
     private static final List<String> IGNORED_PATHS = List.of(
-            "/actuator", "/actuator/", "/swagger-ui", "/swagger-ui/", "/swagger-ui.html", "/v3/api-docs"
+            "/actuator", "/actuator/", "/swagger-ui", "/swagger-ui/", "/swagger-ui.html", "/v3/api-docs", "/error"
     );
 
     @Override
@@ -28,7 +28,7 @@ public class GatewayHeaderFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        if (path.startsWith("/api/v1/internal")) {
+        if (path.startsWith("/api/v1/")) {
             String gatewayHeader = request.getHeader(GATEWAY_HEADER);
             if (!GATEWAY_HEADER_VALUE.equals(gatewayHeader)) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
