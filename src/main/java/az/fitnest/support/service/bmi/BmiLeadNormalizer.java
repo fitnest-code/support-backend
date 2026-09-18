@@ -4,6 +4,7 @@ import az.fitnest.support.exception.BadRequestException;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.LinkedHashSet;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
@@ -40,14 +41,26 @@ public final class BmiLeadNormalizer {
 
     public static String goalCode(String raw) {
         String cleaned = CONTROL.matcher(raw == null ? "" : raw.trim()).replaceAll("");
-        if (!GOAL_CODE.matcher(cleaned).matches()) {
+        LinkedHashSet<String> codes = new LinkedHashSet<>();
+        for (String part : cleaned.split("[,+]+")) {
+            String code = part.trim();
+            if (code.isEmpty()) {
+                continue;
+            }
+            if (!GOAL_CODE.matcher(code).matches()) {
+                throw new BadRequestException("Invalid goal");
+            }
+            codes.add(code);
+        }
+        if (codes.isEmpty()) {
             throw new BadRequestException("Invalid goal");
         }
-        return cleaned.length() > 64 ? cleaned.substring(0, 64) : cleaned;
+        String joined = String.join(",", codes);
+        return joined.length() > 255 ? joined.substring(0, 255) : joined;
     }
 
     public static String goalTitle(String raw) {
-        String cleaned = cleanText(raw, 120);
+        String cleaned = cleanText(raw, 500);
         if (cleaned.length() < 2) {
             throw new BadRequestException("Invalid goal");
         }

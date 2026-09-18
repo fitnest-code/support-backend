@@ -15,8 +15,8 @@ import java.math.BigDecimal;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record PublicLandingBmiLeadRequest(
         @NotBlank @Size(max = 20) String phone,
-        @NotBlank @Size(min = 2, max = 64) String goalCode,
-        @NotBlank @Size(min = 2, max = 120) String goalTitle,
+        @NotBlank @Size(min = 2, max = 255) String goalCode,
+        @NotBlank @Size(min = 2, max = 500) String goalTitle,
         @NotNull @DecimalMin("80.0") @DecimalMax("250.0") BigDecimal heightCm,
         @NotNull @DecimalMin("25.0") @DecimalMax("300.0") BigDecimal weightKg,
         @Min(10) @Max(100) Integer age,
