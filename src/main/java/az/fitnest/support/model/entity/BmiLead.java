@@ -32,6 +32,9 @@ public class BmiLead extends BaseEntity {
     @Column(name = "phone", nullable = false, length = 16)
     private String phone;
 
+    @Column(name = "email", length = 120)
+    private String email;
+
     @Column(name = "goal_code", nullable = false, length = 64)
     private String goalCode;
 

@@ -63,6 +63,7 @@ public class BmiLeadService {
 
         BmiLead lead = new BmiLead();
         lead.setPhone(phone);
+        lead.setEmail(BmiLeadNormalizer.optionalEmail(request.email()));
         lead.setGoalCode(BmiLeadNormalizer.goalCode(request.goalCode()));
         lead.setGoalTitle(BmiLeadNormalizer.goalTitle(request.goalTitle()));
         lead.setHeightCm(request.heightCm());
@@ -225,6 +226,7 @@ public class BmiLeadService {
                 lead.getId(),
                 lead.getCreatedAt(),
                 lead.getPhone(),
+                lead.getEmail(),
                 lead.getGoalCode(),
                 lead.getGoalTitle(),
                 lead.getBmi(),

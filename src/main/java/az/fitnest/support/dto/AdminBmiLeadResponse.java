@@ -9,6 +9,7 @@ public record AdminBmiLeadResponse(
         long id,
         Instant createdAt,
         String phone,
+        String email,
         String goalCode,
         String goalTitle,
         BigDecimal bmi,

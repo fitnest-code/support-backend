@@ -22,5 +22,6 @@ public record PublicLandingBmiLeadRequest(
         @Min(10) @Max(100) Integer age,
         @Size(max = 16) String gender,
         @NotNull @AssertTrue Boolean consent,
+        @Size(max = 120) String email,
         @Size(max = 0) String website
 ) {}

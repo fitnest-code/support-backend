@@ -12,6 +12,7 @@ public final class BmiLeadNormalizer {
     static final Pattern PHONE_E164 = Pattern.compile("^\\+994(10|50|51|55|60|70|77|99)\\d{7}$");
     static final Pattern GOAL_CODE = Pattern.compile("^[A-Za-z0-9][A-Za-z0-9_-]{1,63}$");
     static final Pattern CONTROL = Pattern.compile("[\\p{Cntrl}<>]");
+    static final Pattern EMAIL = Pattern.compile("^[^\\s@<>]{1,64}@[^\\s@<>]{1,255}$");
 
     private BmiLeadNormalizer() {
     }
@@ -92,6 +93,17 @@ public final class BmiLeadNormalizer {
             return "unknown";
         }
         return first;
+    }
+
+    public static String optionalEmail(String raw) {
+        if (raw == null || raw.isBlank()) {
+            return null;
+        }
+        String email = raw.trim().toLowerCase(Locale.ROOT);
+        if (!EMAIL.matcher(email).matches()) {
+            throw new BadRequestException("Invalid email");
+        }
+        return email.length() > 120 ? email.substring(0, 120) : email;
     }
 
     public static String cleanText(String raw, int max) {

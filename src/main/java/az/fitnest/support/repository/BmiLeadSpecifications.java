@@ -40,6 +40,7 @@ public final class BmiLeadSpecifications {
                             .replace("_", "\\_") + "%";
                     ors.add(cb.like(cb.lower(root.get("goalTitle")), pattern, '\\'));
                     ors.add(cb.like(cb.lower(root.get("assigneeName")), pattern, '\\'));
+                    ors.add(cb.like(cb.lower(root.get("email")), pattern, '\\'));
                 }
                 predicates.add(cb.or(ors.toArray(jakarta.persistence.criteria.Predicate[]::new)));
             }
