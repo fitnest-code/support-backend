@@ -94,7 +94,7 @@ public final class BmiLeadNormalizer {
         return first;
     }
 
-    static String cleanText(String raw, int max) {
+    public static String cleanText(String raw, int max) {
         if (raw == null) {
             return "";
         }
